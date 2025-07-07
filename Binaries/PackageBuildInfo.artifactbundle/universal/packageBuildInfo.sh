@@ -123,4 +123,24 @@ public struct PackageBuild: Sendable {
                               branch: $branch,
                               digest: $digestS,
                               moduleName: $moduleName)
+}
+
+extension PackageBuild {
+  var name: String {
+    guard let name = tag else {
+      guard let name = branch else {
+        return commit
+      }
+      return name
+    }
+    return name
+  }
+
+  var modifiedName: String {
+    isDirty ? \"\(name)-\(countSinceTag)-local\" : \"\(name)-\(countSinceTag)\"
+  }
+
+  var version: String {
+    (countSinceTag > 0) ? modifiedName : name
+  }
 }" >"$2"
