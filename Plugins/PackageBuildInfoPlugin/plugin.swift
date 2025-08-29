@@ -17,7 +17,7 @@ struct PackageBuildInfoPlugin: BuildToolPlugin {
                 "Generating \(outputFile.lastComponent) for \(target.directory)",
             executable:
                 try context.tool(named: "PackageBuildInfo").path,
-            arguments: [ "\(target.directory)", "\(outputFile)", target.moduleName ],
+            arguments: [ "\(target.directory)", "\(outputFile)", context.package.displayName, target.moduleName ],
             outputFilesDirectory: context.pluginWorkDirectory
         )
         return [command]
@@ -34,7 +34,7 @@ extension PackageBuildInfoPlugin: XcodeBuildToolPlugin {
                 "Generating \(outputFile.lastComponent) for \(context.xcodeProject.directory)",
             executable:
                 try context.tool(named: "PackageBuildInfo").path,
-            arguments: [ "\(context.xcodeProject.directory)", "\(outputFile)", target.displayName ],
+            arguments: [ "\(context.xcodeProject.directory)", "\(outputFile)", context.xcodeProject.displayName, target.displayName ],
             outputFilesDirectory: context.pluginWorkDirectory
         )
         return [command]
