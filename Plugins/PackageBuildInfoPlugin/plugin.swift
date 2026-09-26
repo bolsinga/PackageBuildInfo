@@ -18,7 +18,7 @@ struct PackageBuildInfoPlugin: BuildToolPlugin {
       executable:
         try context.tool(named: "PackageBuildInfo").url,
       arguments: [
-        "\(target.directoryURL)", "\(outputFile)", context.package.displayName, target.moduleName,
+        "\(target.directoryURL.absoluteString)", "\(outputFile.absoluteString)", context.package.displayName, target.moduleName,
       ],
       outputFilesDirectory: context.pluginWorkDirectoryURL
     )
@@ -39,7 +39,7 @@ struct PackageBuildInfoPlugin: BuildToolPlugin {
         executable:
           try context.tool(named: "PackageBuildInfo").url,
         arguments: [
-          "\(context.xcodeProject.directoryURL)", "\(outputFile)", context.xcodeProject.displayName,
+          "\(context.xcodeProject.directoryURL.absoluteString)", "\(outputFile.absoluteString)", context.xcodeProject.displayName,
           target.displayName,
         ],
         outputFilesDirectory: context.pluginWorkDirectoryURL
