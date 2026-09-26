@@ -6,6 +6,12 @@
 import Foundation
 import PackagePlugin
 
+extension URL {
+  fileprivate var shellPath: String {
+    path(percentEncoded: false)
+  }
+}
+
 @main
 struct PackageBuildInfoPlugin: BuildToolPlugin {
   func createBuildCommands(context: PluginContext, target: Target) throws -> [Command] {
@@ -18,7 +24,8 @@ struct PackageBuildInfoPlugin: BuildToolPlugin {
       executable:
         try context.tool(named: "PackageBuildInfo").url,
       arguments: [
-        "\(target.directoryURL)", "\(outputFile)", context.package.displayName, target.moduleName,
+        "\(target.directoryURL.shellPath)", "\(outputFile.shellPath)", context.package.displayName,
+        target.moduleName,
       ],
       outputFilesDirectory: context.pluginWorkDirectoryURL
     )
@@ -39,8 +46,8 @@ struct PackageBuildInfoPlugin: BuildToolPlugin {
         executable:
           try context.tool(named: "PackageBuildInfo").url,
         arguments: [
-          "\(context.xcodeProject.directoryURL)", "\(outputFile)", context.xcodeProject.displayName,
-          target.displayName,
+          "\(context.xcodeProject.directoryURL.shellPath)", "\(outputFile.shellPath)",
+          context.xcodeProject.displayName, target.displayName,
         ],
         outputFilesDirectory: context.pluginWorkDirectoryURL
       )
